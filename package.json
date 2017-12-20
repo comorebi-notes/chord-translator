@@ -1,0 +1,34 @@
+{
+  "name": "chord-translator",
+  "version": "0.1.0",
+  "description": "Translate any musical chord! (e.g. C => C,E,G)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "https://github.com/kero-uzura/chord-translator.git",
+  "author": "comorebi notes",
+  "keywords": [
+    "music",
+    "chord",
+    "parser"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kero-uzura/chord-translator/issues"
+  },
+  "homepage": "https://github.com/kero-uzura/chord-translator#readme",
+  "dependencies": {
+    "tonal": "^1.1.0",
+    "webpack": "^3.8.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "webpack-dev-server": "^2.9.3"
+  }
+}
