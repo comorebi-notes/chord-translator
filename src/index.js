@@ -20,7 +20,7 @@ const translateType = (type) => {
     baseType = baseType.replace(omitRegex, "")
   }
 
-  const manipulateType = (regex) => {
+  const parseType = (regex) => {
     if (baseType.match(regex)) {
       baseType = baseType.replace(regex, "")
       return true
@@ -31,60 +31,60 @@ const translateType = (type) => {
 
   // base
   switch (true) {
-    case manipulateType(/^M(?!(7|9|11|13))/): break
-    case manipulateType(/^m(?!aj)/): notes[1] = -1; break
-    case manipulateType(/aug/):      notes[2] = 1;  break
-    case manipulateType(/Φ|φ/):      notes[1] = -1; notes[2] = -1; notes[3] = 0; break
+    case parseType(/^M(?!(7|9|11|13))/): break
+    case parseType(/^m(?!aj)/): notes[1] = -1; break
+    case parseType(/aug/):      notes[2] = 1;  break
+    case parseType(/Φ|φ/):      notes[1] = -1; notes[2] = -1; notes[3] = 0; break
   }
   // +-
   switch (true) {
-    case manipulateType(/\+5|#5/): notes[2] = 1;  break
-    case manipulateType(/-5|b5/):  notes[2] = -1; break
+    case parseType(/\+5|#5/): notes[2] = 1;  break
+    case parseType(/-5|b5/):  notes[2] = -1; break
   }
   switch (true) {
-    case manipulateType(/^6/):  notes[3] = -1; break
-    case manipulateType(/^7/):  notes[3] = 0;  break
-    case manipulateType(/^9/):  notes[3] = 0;  notes[4] = 0; break
-    case manipulateType(/^11/): notes[3] = 0;  notes[4] = 0; notes[5] = 0; break
-    case manipulateType(/^13/): notes[3] = 0;  notes[4] = 0; notes[5] = 0; notes[6] = 0; break
+    case parseType(/^6/):  notes[3] = -1; break
+    case parseType(/^7/):  notes[3] = 0;  break
+    case parseType(/^9/):  notes[3] = 0;  notes[4] = 0; break
+    case parseType(/^11/): notes[3] = 0;  notes[4] = 0; notes[5] = 0; break
+    case parseType(/^13/): notes[3] = 0;  notes[4] = 0; notes[5] = 0; notes[6] = 0; break
   }
   // sus
   switch (true) {
-    case manipulateType(/sus4/): notes[1] = 1;  break
-    case manipulateType(/sus2/): notes[1] = -2; break
+    case parseType(/sus4/): notes[1] = 1;  break
+    case parseType(/sus2/): notes[1] = -2; break
   }
   // add
   switch (true) {
-    case manipulateType(/add2/):  notes[4] = -12; break
-    case manipulateType(/add9/):  notes[4] = 0;   break
-    case manipulateType(/add4/):  notes[5] = -12; break
-    case manipulateType(/add11/): notes[5] = 0;   break
-    case manipulateType(/add6/):  notes[6] = -12; break
-    case manipulateType(/add13/): notes[6] = 0;   break
+    case parseType(/add2/):  notes[4] = -12; break
+    case parseType(/add9/):  notes[4] = 0;   break
+    case parseType(/add4/):  notes[5] = -12; break
+    case parseType(/add11/): notes[5] = 0;   break
+    case parseType(/add6/):  notes[6] = -12; break
+    case parseType(/add13/): notes[6] = 0;   break
   }
   // M
   switch (true) {
-    case manipulateType(/(M|maj|△|Δ)7/):  notes[3] = 1; break
-    case manipulateType(/(M|maj|△|Δ)9/):  notes[3] = 1; notes[4] = 0; break
-    case manipulateType(/(M|maj|△|Δ)11/): notes[3] = 1; notes[4] = 0; notes[5] = 0; break
-    case manipulateType(/(M|maj|△|Δ)13/): notes[3] = 1; notes[4] = 0; notes[5] = 0; notes[6] = 0; break
+    case parseType(/(M|maj|△|Δ)7/):  notes[3] = 1; break
+    case parseType(/(M|maj|△|Δ)9/):  notes[3] = 1; notes[4] = 0; break
+    case parseType(/(M|maj|△|Δ)11/): notes[3] = 1; notes[4] = 0; notes[5] = 0; break
+    case parseType(/(M|maj|△|Δ)13/): notes[3] = 1; notes[4] = 0; notes[5] = 0; notes[6] = 0; break
   }
   // dim
   switch (true) {
-    case manipulateType(/^(dim|o)7/): notes[1] -= 1; notes[2] -= 1; notes[3] = -1; break
-    case manipulateType(/^(dim|o)/):  notes[1] -= 1; notes[2] -= 1; break
+    case parseType(/^(dim|o)7/): notes[1] -= 1; notes[2] -= 1; notes[3] = -1; break
+    case parseType(/^(dim|o)/):  notes[1] -= 1; notes[2] -= 1; break
   }
   // tension
   if (tension) baseType += tension.join("")
-  if (manipulateType(/(#|\+)9/))  notes[4] = 1
-  if (manipulateType(/(b|-)9/))   notes[4] = -1
-  if (manipulateType(/9/))        notes[4] = 0
-  if (manipulateType(/(#|\+)11/)) notes[5] = 1
-  if (manipulateType(/(b|-)11/))  notes[5] = -1
-  if (manipulateType(/11/))       notes[5] = 0
-  if (manipulateType(/(#|\+)13/)) notes[6] = 1
-  if (manipulateType(/(b|-)13/))  notes[6] = -1
-  if (manipulateType(/13/))       notes[6] = 0
+  if (parseType(/(#|\+)9/))  notes[4] = 1
+  if (parseType(/(b|-)9/))   notes[4] = -1
+  if (parseType(/9/))        notes[4] = 0
+  if (parseType(/(#|\+)11/)) notes[5] = 1
+  if (parseType(/(b|-)11/))  notes[5] = -1
+  if (parseType(/11/))       notes[5] = 0
+  if (parseType(/(#|\+)13/)) notes[6] = 1
+  if (parseType(/(b|-)13/))  notes[6] = -1
+  if (parseType(/13/))       notes[6] = 0
   // omit
   switch (omit) {
     case "1":  notes[0] = null; break
@@ -112,7 +112,7 @@ const buildChord = (root, baseNotes, translator) => {
   return notes
 }
 
-const chordTranslator = (root, baseKey, type) => {
+const chordTranslator = (root, type = "", baseKey = 3) => {
   const baseNotes = Chord.notes(`${root}${baseKey}`, "M")
   const notes = buildChord(`${root}${baseKey}`, baseNotes, translateType(type))
   return notes
