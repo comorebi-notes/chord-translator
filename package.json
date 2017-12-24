@@ -2,11 +2,10 @@
   "name": "chord-translator",
   "version": "0.1.0",
   "description": "Translate any musical chord! (e.g. C => C,E,G)",
-  "main": "dist/chordTranslator.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "webpack-dev-server",
     "clean": "yarn rimraf public/dist",
-    "build": "yarn clean && NODE_ENV=production yarn webpack",
+    "build": "yarn clean && NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "https://github.com/kero-uzura/chord-translator",
@@ -25,6 +24,7 @@
     "tonal": "^1.1.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
@@ -34,8 +34,6 @@
     "eslint": "^4.10.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.3"
+    "eslint-plugin-jsx-a11y": "^6.0.2"
   }
 }
