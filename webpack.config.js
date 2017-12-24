@@ -1,10 +1,10 @@
 module.exports = {
   entry: `${__dirname}/src/index.js`,
   output: {
-    path: `${__dirname}/public`,
-    filename: "bundle.js"
+    path: `${__dirname}/dist`,
+    filename: "chordTranslator.js"
   },
-    module: {
+  module: {
     loaders: [
       {
         test: /\.js$/,
@@ -18,6 +18,6 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: `${__dirname}/public`
+    contentBase: `${__dirname}/dist`
   }
 }
