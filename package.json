@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "yarn rimraf public/dist",
-    "build": "yarn clean && NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "build": "yarn clean && NODE_ENV=production babel src --out-dir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "https://github.com/kero-uzura/chord-translator",
@@ -27,10 +27,9 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.1",
-    "babel-loader": "^7.1.2",
+    "babel-minify": "^0.2.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
     "eslint": "^4.10.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",

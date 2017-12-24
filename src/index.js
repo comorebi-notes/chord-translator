@@ -1,5 +1,3 @@
-import "babel-polyfill"
-
 import { Chord, Note, Distance } from "tonal"
 
 const translateType = (type) => {

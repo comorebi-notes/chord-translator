@@ -3,9 +3,9 @@
     "es2015"
   ],
   "env": {
-    "development": {
+    "production": {
       "presets": [
-        "power-assert"
+        "minify"
       ]
     }
   }
