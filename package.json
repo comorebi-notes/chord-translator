@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "clean": "yarn rimraf public/dist",
-    "build": "yarn clean && NODE_ENV=production yarn webpack -p",
+    "build": "yarn clean && NODE_ENV=production yarn webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "https://github.com/kero-uzura/chord-translator",
