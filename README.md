@@ -1,6 +1,6 @@
 # chord-translator
 
-> `chord-translator` translate any musical chord ! 
+> `chord-translator` translate any musical chord !
 
 ## Install
 
@@ -36,6 +36,9 @@ chordTranslator("C", "M7")   // ["C3", "E3", "G3", "B3", "E4"]
 chordTranslator("C", "maj7") // ["C3", "E3", "G3", "B3", "E4"]
 chordTranslator("C", "△7")  // ["C3", "E3", "G3", "B3", "E4"]
 ```
+
+## Others
+This package used in [rechord](https://github.com/kero-uzura/rechord).
 
 ## License
 
