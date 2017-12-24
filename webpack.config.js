@@ -1,3 +1,5 @@
+const webpack = require("webpack")
+
 module.exports = {
   entry: `${__dirname}/src/index.js`,
   output: {
@@ -17,6 +19,22 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      parallel:   true,
+      sourceMap:  false,
+      mangle:     false,
+      uglifyOptions: {
+        mangle:   false
+      },
+      compress: {
+        warnings: false
+      },
+      output: {
+        comments: false
+      }
+    })
+  ],
   devServer: {
     contentBase: `${__dirname}/dist`
   }
