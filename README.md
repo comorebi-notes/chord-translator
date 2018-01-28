@@ -34,7 +34,7 @@ chordTranslator("Ab", "7(b9,#11,b13)") // ["Ab3", "C4", "Eb4", "Gb4", "A4", "D5"
 
 chordTranslator("C", "M7")   // ["C3", "E3", "G3", "B3", "E4"]
 chordTranslator("C", "maj7") // ["C3", "E3", "G3", "B3", "E4"]
-chordTranslator("C", "△7")  // ["C3", "E3", "G3", "B3", "E4"]
+chordTranslator("C", "△7")   // ["C3", "E3", "G3", "B3", "E4"]
 ```
 
 ## Others

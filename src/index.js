@@ -1,28 +1,33 @@
 import { Chord, Note, Distance } from "tonal"
+import moji                      from "moji"
 
-const translateType = (type) => {
+export const translateType = (_type) => {
   const notes = [0, 0, 0, null, null, null, null]
-  let baseType = type
+  let type = _type
+  type = moji(type).convert("ZE", "HE").toString()
+  type = type.replace(/ 　/g,    "")
+  type = type.replace(/[＃♯]/g,  "#")
+  type = type.replace(/[♭ｂ]/g, "b")
   let tension
   let omit
 
-  const tensionRegex = /\((.*)\)/
-  const tensionMatch = type.match(tensionRegex)
-  if (tensionMatch) {
-    tension = tensionMatch[1].replace(/\s+/g, "").split(",")
-    baseType = baseType.replace(tensionRegex, "")
-  }
-
-  const omitRegex = /omit(\d+)/
+  const omitRegex = /[\(（]?(omit|no)(\d+)[\)）]?/
   const omitMatch = type.match(omitRegex)
   if (omitMatch) {
-    omit = omitMatch[1]
-    baseType = baseType.replace(omitRegex, "")
+    omit = omitMatch[2]
+    type = type.replace(omitRegex, "")
+  }
+
+  const tensionRegex = /\((.+)\)/
+  const tensionMatch = type.match(tensionRegex)
+  if (tensionMatch) {
+    tension = tensionMatch[1].replace(/[\s　]+/g, "").split(/[,，]/)
+    type = type.replace(tensionRegex, "")
   }
 
   const parseType = (regex) => {
-    if (baseType.match(regex)) {
-      baseType = baseType.replace(regex, "")
+    if (type.match(regex)) {
+      type = type.replace(regex, "")
       return true
     } else {
       return false
@@ -31,22 +36,25 @@ const translateType = (type) => {
 
   // base
   switch (true) {
-    case parseType(/^M(?!(7|9|11|13))/): break
+    case parseType(/^M(?!(7|9|11|13|aj))/): break
     case parseType(/^m(?!aj)/): notes[1] = -1; break
-    case parseType(/aug/):      notes[2] = 1;  break
-    case parseType(/Φ|φ/):      notes[1] = -1; notes[2] = -1; notes[3] = 0; break
+  }
+  switch (true) {
+    case parseType(/aug5?|\+(?!\d)/): notes[2] = 1;  break
+    case parseType(/[Φφø]/):          notes[1] = -1; notes[2] = -1; notes[3] = 0; break
   }
   // +-
   switch (true) {
-    case parseType(/\+5|#5/): notes[2] = 1;  break
-    case parseType(/-5|b5/):  notes[2] = -1; break
+    case parseType(/[\+#]5/): notes[2] = 1;  break
+    case parseType(/[-b]5/):  notes[2] = -1; break
   }
   switch (true) {
-    case parseType(/^6/):  notes[3] = -1; break
-    case parseType(/^7/):  notes[3] = 0;  break
-    case parseType(/^9/):  notes[3] = 0;  notes[4] = 0; break
-    case parseType(/^11/): notes[3] = 0;  notes[4] = 0; notes[5] = 0; break
-    case parseType(/^13/): notes[3] = 0;  notes[4] = 0; notes[5] = 0; notes[6] = 0; break
+    case parseType(/^5/):  notes[1] = null; break
+    case parseType(/^6/):  notes[3] = -1;   break
+    case parseType(/^7/):  notes[3] = 0;    break
+    case parseType(/^9/):  notes[3] = 0;    notes[4] = 0; break
+    case parseType(/^11/): notes[3] = 0;    notes[4] = 0; notes[5] = 0; break
+    case parseType(/^13/): notes[3] = 0;    notes[4] = 0; notes[5] = 0; notes[6] = 0; break
   }
   // sus
   switch (true) {
@@ -64,10 +72,10 @@ const translateType = (type) => {
   }
   // M
   switch (true) {
-    case parseType(/(M|maj|△|Δ)7/):  notes[3] = 1; break
-    case parseType(/(M|maj|△|Δ)9/):  notes[3] = 1; notes[4] = 0; break
-    case parseType(/(M|maj|△|Δ)11/): notes[3] = 1; notes[4] = 0; notes[5] = 0; break
-    case parseType(/(M|maj|△|Δ)13/): notes[3] = 1; notes[4] = 0; notes[5] = 0; notes[6] = 0; break
+    case parseType(/(M|[Mm]aj|△|Δ)7/):  notes[3] = 1; break
+    case parseType(/(M|[Mm]aj|△|Δ)9/):  notes[3] = 1; notes[4] = 0; break
+    case parseType(/(M|[Mm]aj|△|Δ)11/): notes[3] = 1; notes[4] = 0; notes[5] = 0; break
+    case parseType(/(M|[Mm]aj|△|Δ)13/): notes[3] = 1; notes[4] = 0; notes[5] = 0; notes[6] = 0; break
   }
   // dim
   switch (true) {
@@ -75,16 +83,20 @@ const translateType = (type) => {
     case parseType(/^(dim|o)/):  notes[1] -= 1; notes[2] -= 1; break
   }
   // tension
-  if (tension) baseType += tension.join("")
-  if (parseType(/(#|\+)9/))  notes[4] = 1
-  if (parseType(/(b|-)9/))   notes[4] = -1
-  if (parseType(/9/))        notes[4] = 0
-  if (parseType(/(#|\+)11/)) notes[5] = 1
-  if (parseType(/(b|-)11/))  notes[5] = -1
-  if (parseType(/11/))       notes[5] = 0
-  if (parseType(/(#|\+)13/)) notes[6] = 1
-  if (parseType(/(b|-)13/))  notes[6] = -1
-  if (parseType(/13/))       notes[6] = 0
+  if (tension) type += tension.join("")
+  if (parseType(/[\+#]5/))  notes[2] = 1
+  if (parseType(/[-b]5/))   notes[2] = -1
+  if (parseType(/M7/))      notes[3] = 1
+  if (parseType(/7/))       notes[3] = 0
+  if (parseType(/[\+#]9/))  notes[4] = 1
+  if (parseType(/[-b]9/))   notes[4] = -1
+  if (parseType(/9/))       notes[4] = 0
+  if (parseType(/[\+#]11/)) notes[5] = 1
+  if (parseType(/[-b]11/))  notes[5] = -1
+  if (parseType(/11/))      notes[5] = 0
+  if (parseType(/[\+#]13/)) notes[6] = 1
+  if (parseType(/[-b]13/))  notes[6] = -1
+  if (parseType(/13/))      notes[6] = 0
   // omit
   switch (omit) {
     case "1":  notes[0] = null; break
@@ -95,6 +107,9 @@ const translateType = (type) => {
     case "11": notes[5] = null; break
     case "13": notes[6] = null; break
   }
+
+  // すべて翻訳できてなければ失敗
+  if (type.length > 0) return false
 
   return notes
 }
@@ -114,7 +129,9 @@ const buildChord = (root, baseNotes, translator) => {
 
 const chordTranslator = (root, type = "", baseKey = 3) => {
   const baseNotes = Chord.notes(`${root}${baseKey}`, "M")
-  const notes = buildChord(`${root}${baseKey}`, baseNotes, translateType(type))
+  const translator = translateType(type)
+  if (!translator) return false
+  const notes = buildChord(`${root}${baseKey}`, baseNotes, translator)
   return notes
 }
 
