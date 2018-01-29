@@ -1,6 +1,6 @@
 {
   "name": "chord-translator",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Translate any musical chord! (e.g. C => C,E,G)",
   "main": "dist/index.js",
   "scripts": {

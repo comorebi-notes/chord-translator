@@ -108,9 +108,10 @@ export const translateType = (_type) => {
     case "13": notes[6] = null; break
   }
 
-  // すべて翻訳できてなければ失敗
-  if (type.length > 0) return false
-
+  // 翻訳できない文字列があるか、音の数が2に満たない場合はエラー
+  if (type.length > 0 || notes.filter(note => note !== null).length < 2) {
+    return false
+  }
   return notes
 }
 
